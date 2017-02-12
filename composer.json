@@ -1,0 +1,19 @@
+{
+    "name": "Alisoftware/Phptgbot",
+    "description": "PHP Telegram Bot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ali",
+            "email": "kontak@situsali.com"
+        }
+    ],
+    "require":{
+      "php": "^5.4.0 || ^7.0"  
+    },
+    "autoload": {
+        "psr-4": {
+            "Alisoftware\\": "src/"
+        }
+    }
+}
