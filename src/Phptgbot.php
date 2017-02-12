@@ -33,6 +33,8 @@ class Phptgbot
     private static $_update_id = 0;
     private static $_query_id = 0;
     
+    protected static $version = '0.1.2';
+    
     /**
      * First, we must set a token and method of the bot.
      * 
