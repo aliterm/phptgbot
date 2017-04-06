@@ -24,4 +24,23 @@ PHP Telegram Bot
    use \Alisoftware\Phptgbot as Bot;
    
    Bot::setToken(''); 
+   Bot::getMe();
 ```
+
+## Longpooling / Webhook
+
+```php
+<?php
+   require __DIR__ .'/vendor/autoload.php' ;
+   use \Alisoftware\Phptgbot as Bot;
+   
+   Bot::setToken(''); 
+   
+   // webhook
+   // Bot::setToken('TOKEN',true); 
+   
+   Bot::run(function($response){
+        print_r(%response);
+   });
+```
+

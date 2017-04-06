@@ -119,7 +119,7 @@ class Phptgbot
      */ 
     public static function run($callback)
     {
-        if (self::$isWebhook) {
+        if (self::$_iswebhook) {
             return self::_runWebHook($callback);
         } else {
             while (true) {
