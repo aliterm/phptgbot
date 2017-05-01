@@ -42,8 +42,21 @@ Example:
    // Bot::setToken('TOKEN',true); 
    
    Bot::run(function($response){
-        print_r(%response);
+      if ($response['error'] == false) 
+      {
+        $message = isset($response['message'])?$response['message']:false;
+        $onChannel = isset($response['channel_post'])?$response['channel_post']:false;
+        if ($message != false) onMessage($message);
+        //if ($onChannel != false) onMessage($onChannel);
+      }   
    });
+   
+   function onMessage($message){
+     print_r($message);
+     if ($message['text'] == 'ping') {
+            Bot::send('message','<b>PONG!</b>');
+        }
+   }
 ```
 
 

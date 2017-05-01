@@ -102,7 +102,10 @@ class Phptgbot
                 $chat_id = ['chat_id' => $ret['message']['chat']['id']];
             }
                 
-            self::setParam($chatid);
+            if (isset($ret['channel_post']['chat']['id'])) {
+                $chat_id = ['chat_id' => $ret['channel_post']['chat']['id']];
+            }
+            self::setParam($chat_id);
             return $callback($ret);
         
         } else {
@@ -125,9 +128,9 @@ class Phptgbot
             while (true) {
                 sleep(1);
                 $params = ['offset' => self::$_update_id,
-                       'limit' => 100,
-                       'timeout' => 0
-                      ];
+                           'limit' => 100,
+                           'timeout' => 0
+                          ];
                       
                 $result['error'] = true;
                 $ret = self::_botSend(['cmd' => 'getUpdates', 'params' => $params]);
@@ -141,19 +144,23 @@ class Phptgbot
                     
                         if (!isset(self::$_params['chat_id'])) {
                             $chat_id = '';
-                            if (isset($ret['message']['chat']['id'])) {
-                                $chat_id = ['chat_id' => 
-                                            $ret['message']['chat']['id']
-                                           ];
+                            if (isset($result['message']['chat']['id'])) {
+                                $chat_id = $result['message']['chat']['id']; 
+                            }
+
+                            if (isset($result['channel_post']['chat']['id'])) {
+                             $chat_id = $result['channel_post']['chat']['id'];    
                             }
 
                             self::setParam(['chat_id' => $chat_id]);
                         }
                         
                         $callback($result);
+                       
                     }
-                
-                    self::$_update_id = $update_id + 1;
+                    
+                self::$_update_id = $update_id + 1;
+             
                 } else {
                     $result = array_merge($result, $ret);
                     $callback($result);
@@ -346,7 +353,7 @@ class Phptgbot
      */ 
     public static function getFile($file_id)
     {
-        $theURL = 'https://api.telegram.org/file/bot' . self::$token . '/';
+        $theURL = 'https://api.telegram.org/file/bot' . self::$_token . '/';
         $result = self::get('file', $file_id);
         if (isset($result['result']['file_path'])) {
             return $theURL . $result['result']['file_path'];
@@ -577,7 +584,7 @@ class Phptgbot
     private static function _curlFile($filename)
     {
         // set realpath
-        $filename = realpath($fileName);
+        $filename = realpath($filename);
         // check a file
         if (!is_file($filename)) {
             throw new Exception('File does not exists');
